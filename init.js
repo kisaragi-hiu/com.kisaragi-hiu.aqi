@@ -1,5 +1,10 @@
 "use strict";
 
+// Make `element` visible
+function show(element) {
+  element.style.opacity = 1;
+}
+
 function govTimestampToISO8601(timestamp) {
   // We can expect the format to stay constant, I think.
   return (
@@ -23,16 +28,15 @@ function renderUpdated(timestamp) {
 // Map from key to display name
 // Key: key in API response
 // Value: array of [Display, Unit]
-// TODO: units from https://data.gov.tw/dataset/40448
 const extra_fields = {
-  "PM2.5": ["PM2.5", "μg/m3"],
-  PM10: ["PM10", "μg/m3"],
-  SO2: ["二氧化硫", "ppb"],
+  "PM2.5": ["PM2.5", "μg/m³"],
+  PM10: ["PM10", "μg/m³"],
   CO: ["一氧化碳", "ppm"],
-  O3: ["臭氧", "ppb"],
-  NO2: ["二氧化氮", "ppb"],
-  NOx: ["氮氧化物", "ppb"],
   NO: ["一氧化氮", "ppb"],
+  NO2: ["二氧化氮", "ppb"],
+  SO2: ["二氧化硫", "ppb"],
+  O3: ["臭氧", "ppb"],
+  NOx: ["氮氧化物", "ppb"],
   WindSpeed: ["風速", "m/s"],
   WindDirec: ["風向", "°"],
 };
@@ -63,6 +67,7 @@ function renderMainView(site) {
   renderUpdated(site["PublishTime"]);
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
+  show(document.getElementsByTagName("body")[0]);
 }
 
 let current_station = "楠梓";

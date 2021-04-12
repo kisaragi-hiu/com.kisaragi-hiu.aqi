@@ -1,16 +1,28 @@
+:root {
+  --background-color: #fff;
+  --dark-color: #0e0715;
+  --foreground-color: #4c4059;
+}
 body {
   font-family: "Inter", "Noto Sans CJK TC", sans-serif;
   display: grid;
   margin: 3rem 3rem;
   grid-template-rows: auto auto;
   grid-row-gap: 2rem;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  /* Avoid flash of unrendered content; cleared by JS */
+  /* Don't worry about noscript as this whole thing requires JS */
+  opacity: 0;
+  transition: opacity 100ms ease;
 }
-#location {
+#location,
+#aqi {
   font-weight: 700;
+  color: var(--dark-color);
 }
 #aqi {
   font-size: 8rem;
-  font-weight: 700;
   line-height: 1;
 }
 #other-meta td:nth-child(1) {
@@ -24,5 +36,8 @@ body {
   body {
     grid-template-rows: auto auto;
     grid-template-columns: auto auto;
+  }
+  footer {
+    grid-column: 1/1;
   }
 }
