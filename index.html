@@ -11,33 +11,22 @@
     <meta name="description" content="" />
     <meta name="author" content="Kisaragi Hiu" />
     <meta name="keywords" content="AQI, Taiwan" />
-    <style>
-      body {
-        font-family: "Inter", "Noto Sans CJK TC", sans-serif;
-        display: grid;
-        margin: 3rem;
-        grid-template-rows: auto auto;
-        grid-row-gap: 2rem;
-      }
-      #aqi {
-        font-size: 6rem;
-        font-weight: 700;
-      }
-      .flex {
-        display: flex;
-        flex-direction: column;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
     <div class="flex">
       <div id="location">
-        <span id="county">place</span>/<span id="station">holder</span>
+        <span id="county">place</span>
+        <span>/</span>
+        <span id="station">holder</span>
       </div>
       <div id="aqi">0</div>
     </div>
     <table id="other-meta"></table>
     <div id="updated-block">更新時間：<time id="updated" title=""></time></div>
     <script type="text/javascript" src="init.js"></script>
+    <footer>
+      資料來自<a href="https://data.gov.tw/">政府資料開放平臺</a>。
+    </footer>
   </body>
 </html>

@@ -1,0 +1,28 @@
+body {
+  font-family: "Inter", "Noto Sans CJK TC", sans-serif;
+  display: grid;
+  margin: 3rem 3rem;
+  grid-template-rows: auto auto;
+  grid-row-gap: 2rem;
+}
+#location {
+  font-weight: 700;
+}
+#aqi {
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+#other-meta td:nth-child(1) {
+  width: 6rem;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 700px) {
+  body {
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+  }
+}
