@@ -21,29 +21,42 @@ body {
   font-weight: 700;
   color: var(--dark-color);
 }
+/* Used for section title */
+h2 {
+  font-size: 100%;
+  display: none;
+}
 #aqi {
   font-size: 8rem;
   line-height: 1;
+  margin: 0;
 }
 #other-meta td:nth-child(1) {
-  width: 6rem;
+  width: 7rem;
 }
 .flex {
   display: flex;
   flex-direction: column;
 }
-@media (min-width: 700px) {
+@media (min-width: 650px) {
+  html {
+    font-size: 16pt;
+  }
   body {
     grid-template-rows: auto auto;
-    grid-template-columns: auto auto;
+    grid-template-columns: minmax(auto, 2fr) 1fr;
   }
   footer {
     grid-column: 1/1;
   }
+  h2 {
+    display: unset;
+  }
 }
-@media (min-width: 1000px) {
+@media (min-width: 800px) {
   body {
-    max-width: 1000px;
-    margin: 5rem 30%;
+    max-width: 40rem;
+    margin-top: 5rem;
+    margin-left: min(20%, 10rem);
   }
 }
