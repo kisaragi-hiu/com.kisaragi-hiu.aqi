@@ -74,21 +74,39 @@ function renderFailedView() {
   document.getElementsByTagName("body")[0].innerText = "Data is invalid";
 }
 
+function render(aqi_parsed) {
+  let current_site = aqi_parsed.records.filter(
+    (site) => site.SiteName == current_station
+  )[0];
+  if (current_site) {
+    renderMainView(current_site);
+  } else {
+    renderFailedView();
+  }
+}
+
 let current_station = "楠梓";
-let aqi_parsed;
+
+// Caching
+let localStorage = window.localStorage;
+let response_cache = localStorage.getItem("response_cache");
+// getItem returns null if it doesn't exist, and JSON.parse(null) -> null
+let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
 
 function refresh() {
+  // Retrieve from cache if we should
+  // Utilize the fact that it updates each hour
+  if (!(last_retrieved?.getUTCHours() < new Date().getUTCHours())) {
+    render(JSON.parse(localStorage.getItem("response_cache")));
+    return;
+  }
   let oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function () {
-    aqi_parsed = JSON.parse(this.responseText);
-    let current_site = aqi_parsed.records.filter(
-      (site) => site.SiteName == current_station
-    )[0];
-    if (current_site) {
-      renderMainView(current_site);
-    } else {
-      renderFailedView();
-    }
+    // Save into cache
+    localStorage.setItem("response_cache", this.responseText);
+    localStorage.setItem("last_retrieved", new Date().toJSON());
+    let aqi_parsed = JSON.parse(this.responseText);
+    render(aqi_parsed);
   });
   // oReq.addEventListener("error", function () {
   // Switch to a failed view
