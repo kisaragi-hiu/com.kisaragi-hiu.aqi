@@ -1,10 +1,20 @@
+/* Use Inter for now */
+@import url("https://rsms.me/inter/inter.css");
+html {
+  font-family: "Inter", "Noto Sans CJK TC", sans-serif;
+}
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: "Inter var", "Noto Sans CJK TC", sans-serif;
+  }
+}
+
 :root {
   --background-color: #fff;
   --dark-color: #0e0715;
   --foreground-color: #4c4059;
 }
 body {
-  font-family: "Inter", "Noto Sans CJK TC", sans-serif;
   display: grid;
   margin: 3rem 3rem;
   grid-template-rows: auto auto;
