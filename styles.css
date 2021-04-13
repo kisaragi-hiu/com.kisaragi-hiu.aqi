@@ -31,6 +31,9 @@ body {
   font-weight: 700;
   color: var(--dark-color);
 }
+#refresh {
+  color: var(--foreground-color);
+}
 /* Used for section title */
 h2 {
   font-size: 100%;

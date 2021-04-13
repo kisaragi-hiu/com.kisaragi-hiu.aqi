@@ -45,6 +45,9 @@ function renderData(site) {
   let table = document.getElementById("other-meta");
   let main_display = document.getElementById("aqi");
   main_display.innerText = site.AQI;
+  // Clear the table
+  // TODO: populate with data instead, keep keys in HTML
+  table.innerText = "";
   for (const key in extra_fields) {
     let row = table.insertRow(-1);
     // Insert the field's display name
@@ -67,6 +70,7 @@ function renderMainView(site) {
   renderUpdated(site["PublishTime"]);
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
+  document.getElementById("refresh").href = "javascript:refresh();";
   show(document.getElementsByTagName("body")[0]);
 }
 
@@ -95,10 +99,13 @@ let response_cache = localStorage.getItem("response_cache");
 // 8601 timstamp in UTC I think it's reliable enough.
 let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
 
-function refresh() {
+function refresh({ use_cache = false } = {}) {
   // Retrieve from cache if we should
   // Utilize the fact that it updates each hour
-  if (!(last_retrieved?.getUTCHours() < new Date().getUTCHours())) {
+  if (
+    use_cache &&
+    !(last_retrieved?.getUTCHours() < new Date().getUTCHours())
+  ) {
     render(JSON.parse(localStorage.getItem("response_cache")));
     return;
   }
@@ -120,4 +127,4 @@ function refresh() {
   oReq.send();
 }
 
-refresh();
+refresh({ use_cache: true });
