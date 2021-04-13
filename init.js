@@ -70,16 +70,25 @@ function renderMainView(site) {
   show(document.getElementsByTagName("body")[0]);
 }
 
+function renderFailedView() {
+  document.getElementsByTagName("body")[0].innerText = "Data is invalid";
+}
+
 let current_station = "楠梓";
+let aqi_parsed;
 
 function refresh() {
   let oReq = new XMLHttpRequest();
   oReq.addEventListener("load", function () {
-    let aqi_parsed = JSON.parse(this.responseText);
+    aqi_parsed = JSON.parse(this.responseText);
     let current_site = aqi_parsed.records.filter(
       (site) => site.SiteName == current_station
     )[0];
-    renderMainView(current_site);
+    if (current_site) {
+      renderMainView(current_site);
+    } else {
+      renderFailedView();
+    }
   });
   // oReq.addEventListener("error", function () {
   // Switch to a failed view
