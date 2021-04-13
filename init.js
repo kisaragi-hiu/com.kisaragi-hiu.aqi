@@ -91,6 +91,8 @@ let current_station = "楠梓";
 let localStorage = window.localStorage;
 let response_cache = localStorage.getItem("response_cache");
 // getItem returns null if it doesn't exist, and JSON.parse(null) -> null
+// This is "strongly discouraged", but as its value is always an ISO
+// 8601 timstamp in UTC I think it's reliable enough.
 let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
 
 function refresh() {
