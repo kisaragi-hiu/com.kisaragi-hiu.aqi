@@ -9,7 +9,8 @@ dist/bundle.js: $(src) package.json Makefile
 	$(bin)rollup -c
 
 serve: dist/bundle.js dist/index.html dist/styles.css
-	cd dist/ && python -m http.server 8080
+	cd dist/ && python -m http.server 8080 &
+	$(bin)rollup -c -w
 
 clean:
 	rm dist/*.js
