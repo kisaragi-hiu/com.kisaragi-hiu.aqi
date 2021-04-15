@@ -35,6 +35,31 @@ function renderUpdated(timestamp) {
   updated.innerText = govTimestampToShortDisplay(timestamp);
 }
 
+function createStation(station) {
+  let tmp = document.createElement("div");
+  tmp.innerHTML = `
+<li>
+  <a class="station" href="#" onclick="refresh({station:'${station.SiteName}'})">
+    <span title="測站">${station.County}/${station.SiteName}</span>
+    <span title="AQI">${station.AQI}</span>
+    <span title="PM10 (μg/m³)">${station["PM2.5"]}</span>
+    <span title="PM2.5 (μg/m³)">${station["PM10"]}</span>
+  </a>
+</li>
+`.trim();
+  return tmp.firstChild;
+}
+
+function renderStationList(aqi_parsed) {
+  let station_list = document.getElementById("station-list-ul");
+  // Only insert on first run
+  if (station_list.childElementCount == 0) {
+    for (let station of aqi_parsed.records) {
+      station_list.appendChild(createStation(station));
+    }
+  }
+}
+
 // Map from key to display name
 // Key: key in API response
 // Value: array of [Display, Unit]
@@ -76,11 +101,14 @@ function renderLocation(county, sitename) {
   document.getElementById("station").innerText = sitename;
 }
 
-function renderMainView(site) {
+function renderMainView(site, aqi_parsed) {
+  // Render the main view for SITE.
+  // AQI_PARSED is used for extra info.
   renderUpdated(site["PublishTime"]);
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
-  document.getElementById("refresh").href = "javascript:refresh();";
+  renderStationList(aqi_parsed);
+  document.getElementById("refresh").onclick = "refresh({use_cache:false});";
   show(document.getElementsByTagName("body")[0]);
 }
 
@@ -88,18 +116,16 @@ function renderFailedView() {
   document.getElementsByTagName("body")[0].innerText = "Data is invalid";
 }
 
-function render(aqi_parsed) {
+function render(aqi_parsed, station) {
   let current_site = aqi_parsed.records.filter(
-    (site) => site.SiteName == current_station
+    (site) => site.SiteName == station
   )[0];
   if (current_site) {
-    renderMainView(current_site);
+    renderMainView(current_site, aqi_parsed);
   } else {
     renderFailedView();
   }
 }
-
-let current_station = "楠梓";
 
 // Caching
 let localStorage = window.localStorage;
@@ -125,11 +151,14 @@ function shouldUseCache(cached_date, access_date) {
   );
 }
 
-function refresh({ use_cache = false } = {}) {
+function refresh({ station, use_cache = true } = {}) {
+  let current_station = station || localStorage.getItem("station") || "楠梓";
+  localStorage.setItem("station", current_station);
   // Retrieve from cache if we should
   if (use_cache && shouldUseCache(last_retrieved, new Date())) {
-    render(JSON.parse(localStorage.getItem("response_cache")));
+    render(JSON.parse(localStorage.getItem("response_cache")), current_station);
   } else {
+    // Make a request otherwise
     let oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function () {
       let aqi_parsed = JSON.parse(this.responseText);
@@ -141,7 +170,7 @@ function refresh({ use_cache = false } = {}) {
         "last_retrieved",
         govTimestampToISO8601(aqi_parsed.records[0].PublishTime)
       );
-      render(aqi_parsed);
+      render(aqi_parsed, current_station);
     });
     // oReq.addEventListener("error", function () {
     // Switch to a failed view
@@ -154,4 +183,4 @@ function refresh({ use_cache = false } = {}) {
   }
 }
 
-refresh({ use_cache: true });
+refresh();
