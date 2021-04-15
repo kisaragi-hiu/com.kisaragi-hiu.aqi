@@ -18,11 +18,21 @@ function govTimestampToISO8601(timestamp) {
   );
 }
 
+function govTimestampToFullDisplay(timestamp) {
+  let [year, month, day, hours, minutes, seconds] = timestamp.split(/ |\/|:/);
+  return `${year}年${month}月${day}日 ${hours}時${minutes}分`;
+}
+
+function govTimestampToShortDisplay(timestamp) {
+  let [year, month, day, hours, minutes, seconds] = timestamp.split(/ |\/|:/);
+  return `${hours}:${minutes}`;
+}
+
 function renderUpdated(timestamp) {
   let updated = document.getElementById("updated");
   updated.setAttribute("datetime", govTimestampToISO8601(timestamp));
-  updated.setAttribute("title", govTimestampToISO8601(timestamp));
-  updated.innerText = timestamp;
+  updated.setAttribute("title", govTimestampToFullDisplay(timestamp));
+  updated.innerText = govTimestampToShortDisplay(timestamp);
 }
 
 // Map from key to display name
