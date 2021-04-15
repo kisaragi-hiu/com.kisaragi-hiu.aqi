@@ -42,6 +42,9 @@ h2 {
   line-height: 1;
   margin: 0;
 }
+#other-title {
+  visibility: hidden;
+}
 #other-meta td:nth-child(1) {
   width: 7rem;
 }
@@ -53,6 +56,13 @@ h2 {
   html {
     font-size: 16pt;
   }
+  body {
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(auto, 2fr) 1fr;
+  }
+  #other-title {
+    visibility: visible;
+  }
   #aqi {
     grid-column: 1/1;
     grid-row: 2/2;
@@ -61,12 +71,9 @@ h2 {
     grid-column: 2/2;
     grid-row: 2/2;
   }
-  body {
-    grid-template-rows: auto auto;
-    grid-template-columns: minmax(auto, 2fr) 1fr;
-  }
   footer {
     grid-column: 1/1;
+    margin-top: 3rem;
   }
   h2 {
     display: unset;
