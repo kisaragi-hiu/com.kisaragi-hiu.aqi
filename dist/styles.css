@@ -11,8 +11,8 @@ html {
 
 :root {
   --background-color: #fff;
-  --dark-color: #0e0715;
-  --foreground-color: #4c4059;
+  --dark-color: #3c304a;
+  --foreground-color: #615175;
 }
 body {
   display: grid;
@@ -28,7 +28,7 @@ body {
 footer {
   margin-bottom: 2rem;
 }
-#location,
+h2,
 #aqi {
   font-weight: 700;
   color: var(--dark-color);
