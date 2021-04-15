@@ -96,35 +96,52 @@ let localStorage = window.localStorage;
 let response_cache = localStorage.getItem("response_cache");
 // getItem returns null if it doesn't exist, and JSON.parse(null) -> null
 // This is "strongly discouraged", but as its value is always an ISO
-// 8601 timstamp in UTC I think it's reliable enough.
+// 8601 timestamp I think it's reliable enough.
 let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
+
+function shouldUseCache(cached_date, access_date) {
+  // Should the cache be used?
+  // Goals:
+  // cache 18:05, access 19:05: no cache
+  // cache 18:05, access 19:00: no cache
+  // cache 18:30, access 19:05: no cache
+  // cache 04/01 18:30, access 04/02 18:40: no cache
+  // cache 18:05, access 18:55: use cache
+  // cache 18:30, access 18:55: use cache
+  return (
+    // Utilize the fact that it updates each hour
+    access_date.getUTCHours() == cached_date?.getUTCHours() &&
+    access_date.getTime() - cached_date?.getTime() < 3600000
+  );
+}
 
 function refresh({ use_cache = false } = {}) {
   // Retrieve from cache if we should
-  // Utilize the fact that it updates each hour
-  if (
-    use_cache &&
-    !(last_retrieved?.getUTCHours() < new Date().getUTCHours())
-  ) {
+  if (use_cache && shouldUseCache(last_retrieved, new Date())) {
     render(JSON.parse(localStorage.getItem("response_cache")));
-    return;
+  } else {
+    let oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function () {
+      let aqi_parsed = JSON.parse(this.responseText);
+      // Save into cache
+      // Allow for invalidation later
+      localStorage.setItem("version", "0");
+      localStorage.setItem("response_cache", this.responseText);
+      localStorage.setItem(
+        "last_retrieved",
+        govTimestampToISO8601(aqi_parsed.records[0].PublishTime)
+      );
+      render(aqi_parsed);
+    });
+    // oReq.addEventListener("error", function () {
+    // Switch to a failed view
+    // });
+    oReq.open(
+      "GET",
+      "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&format=json"
+    );
+    oReq.send();
   }
-  let oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", function () {
-    // Save into cache
-    localStorage.setItem("response_cache", this.responseText);
-    localStorage.setItem("last_retrieved", new Date().toJSON());
-    let aqi_parsed = JSON.parse(this.responseText);
-    render(aqi_parsed);
-  });
-  // oReq.addEventListener("error", function () {
-  // Switch to a failed view
-  // });
-  oReq.open(
-    "GET",
-    "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&format=json"
-  );
-  oReq.send();
 }
 
 refresh({ use_cache: true });
