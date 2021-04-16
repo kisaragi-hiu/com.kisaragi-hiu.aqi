@@ -160,7 +160,7 @@ function refresh({ station, use_cache = true } = {}) {
     // });
     oReq.open(
       "GET",
-      "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&format=json"
+      "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=a7e5a2b7-4e2a-4fd2-8ec8-db5e4dcfe72b"
     );
     oReq.send();
   }
