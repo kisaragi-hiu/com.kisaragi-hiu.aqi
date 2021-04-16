@@ -9,6 +9,10 @@ html {
   --dark-color: #3c304a;
   --foreground-color: #615175;
 }
+a {
+  text-decoration: none;
+  font-weight: 400;
+}
 body {
   display: grid;
   margin: 3rem 2rem;
