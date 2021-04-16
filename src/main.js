@@ -91,7 +91,6 @@ function renderMainView(site, aqi_parsed) {
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
   renderStationList(aqi_parsed);
-  document.getElementById("refresh").onclick = "refresh({use_cache:false});";
   show(document.getElementsByTagName("body")[0]);
 }
 
