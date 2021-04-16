@@ -23,12 +23,10 @@ function createStation(station) {
   tmp.innerHTML = `
 <li>
   <a class="station" href="#" onclick="refresh({station:'${station.SiteName}'})">
-<div>
     <span title="測站">${station.County}/${station.SiteName}</span>
     <span title="AQI">${station.AQI}</span>
     <span title="PM10 (μg/m³)">${station["PM2.5"]}</span>
     <span title="PM2.5 (μg/m³)">${station["PM10"]}</span>
-</div>
   </a>
 </li>
 `.trim();
