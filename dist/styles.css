@@ -86,7 +86,7 @@ h2 {
   }
   body {
     grid-template-rows: auto auto;
-    grid-template-columns: minmax(auto, 2fr) 1fr;
+    grid-template-columns: minmax(auto, 1.5fr) 1fr;
   }
   #other-title {
     visibility: visible;
@@ -125,10 +125,13 @@ h2 {
     display: unset;
   }
 }
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   body {
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(auto, 2fr) 1fr;
     max-width: 40rem;
     margin-top: 5rem;
-    margin-left: min(20%, 10rem);
+    margin-left: min(15%, 15rem);
+    margin-right: min(15%, 10rem);
   }
 }
