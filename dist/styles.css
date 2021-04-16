@@ -3,11 +3,6 @@
 html {
   font-family: "Inter", "Noto Sans CJK TC", sans-serif;
 }
-@supports (font-variation-settings: normal) {
-  html {
-    font-family: "Inter var", "Noto Sans CJK TC", sans-serif;
-  }
-}
 
 :root {
   --background-color: #fff;
