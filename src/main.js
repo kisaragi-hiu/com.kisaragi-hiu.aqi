@@ -1,5 +1,8 @@
 "use strict";
 
+// import { defineCustomElements } from "@ionic/core/loader";
+// defineCustomElements(window);
+
 import {
   govTimestampToISO8601,
   govTimestampToFullDisplay,

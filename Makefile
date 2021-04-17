@@ -11,11 +11,11 @@ dist/ionicons: package-lock.json
 	cp -r node_modules/ionicons/dist $@
 
 dist/bundle.js: $(src) package.json Makefile
-	$(bin)rollup -c
+	$(bin)webpack --mode production
 
 serve: dist/bundle.js dist/index.html dist/styles.css
 	cd dist/ && python -m http.server 8080 &
-	$(bin)rollup -c -w
+	$(bin)webpack --mode production --watch
 
 clean:
 	rm dist/*.js
