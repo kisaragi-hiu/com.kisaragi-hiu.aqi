@@ -11,5 +11,8 @@
     "presets": [
       "@babel/preset-env"
     ]
+  },
+  "dependencies": {
+    "ionicons": "^5.5.1"
   }
 }

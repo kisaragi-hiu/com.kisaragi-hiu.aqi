@@ -3,7 +3,12 @@ src := $(wildcard src/*.js)
 
 .PHONY: build serve clean
 
-build: dist/bundle.js dist/index.html dist/styles.css
+build: dist/ionicons dist/bundle.js dist/index.html dist/styles.css
+
+dist/ionicons: package-lock.json
+	rm -r $@
+	mkdir -p $@
+	cp -r node_modules/ionicons/dist $@
 
 dist/bundle.js: $(src) package.json Makefile
 	$(bin)rollup -c
