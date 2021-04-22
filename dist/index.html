@@ -39,7 +39,7 @@
       }
     </script>
   </head>
-  <body>
+  <body class="notready">
     <h2 id="location">
       <span id="county">place</span>
       <span>/</span>
@@ -54,8 +54,11 @@
       <p>更新時間：<time id="updated" title=""></time></p>
     </footer>
     <div id="station-list">
-      <h2>測站列表</h2>
-      <ul id="station-list-ul"></ul>
+      <ul id="station-list-ul">
+        <li class="item">
+          <span>測站</span><span>AQI</span><span>PM2.5</span><span>PM10</span>
+        </li>
+      </ul>
     </div>
     <script src="bundle.js"></script>
     <!-- <script type="module" src="ionicons/dist/ionicons/ionicons.esm.js"></script> -->

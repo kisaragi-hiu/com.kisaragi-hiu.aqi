@@ -9,11 +9,6 @@ import {
   govTimestampToShortDisplay,
 } from "./govtimestamp";
 
-// Make `element` visible
-function show(element) {
-  element.style.opacity = 1;
-}
-
 function renderUpdated(timestamp) {
   let updated = document.getElementById("updated");
   updated.setAttribute("datetime", govTimestampToISO8601(timestamp));
@@ -28,13 +23,13 @@ function createStation(station) {
   a.addEventListener("click", () => {
     refresh({ station: station.SiteName });
   });
-  a.className = "station";
+  a.className = "item";
   a.href = "#";
   a.innerHTML = `
 <span title="測站">${station.County}/${station.SiteName}</span>
 <span title="AQI">${station.AQI}</span>
-<span title="PM10 (μg/m³)">${station["PM2.5"]}</span>
-<span title="PM2.5 (μg/m³)">${station["PM10"]}</span>
+<span title="PM2.5 (μg/m³)">${station["PM2.5"]}</span>
+<span title="PM10 (μg/m³)">${station["PM10"]}</span>
 `.trim();
   // HACK: would be better to actually target the node itself, but
   // writing it out is not really readable in vanilla JS
@@ -46,7 +41,7 @@ function createStation(station) {
 function renderStationList(aqi_parsed) {
   let station_list = document.getElementById("station-list-ul");
   // Only insert on first run
-  if (station_list.childElementCount == 0) {
+  if (station_list.childElementCount == 1) {
     for (let station of aqi_parsed.records) {
       station_list.appendChild(createStation(station));
     }
@@ -119,7 +114,7 @@ function renderMainView(site, aqi_parsed) {
   renderLocation(site["County"], site["SiteName"]);
   renderStationList(aqi_parsed);
   renderStatus(site["Status"], body);
-  show(body);
+  body.classList.remove("notready");
 }
 
 function renderFailedView() {
