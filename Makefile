@@ -3,10 +3,10 @@ src := $(wildcard src/*.js)
 
 .PHONY: build serve clean
 
-build: dist/ionicons dist/bundle.js dist/index.html dist/styles.css
+build: dist/bundle.js dist/index.html dist/styles.css
 
 dist/ionicons: package-lock.json
-	rm -r $@
+	-rm -r $@
 	mkdir -p $@
 	cp -r node_modules/ionicons/dist $@
 
