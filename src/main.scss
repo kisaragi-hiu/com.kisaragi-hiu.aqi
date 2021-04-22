@@ -1,3 +1,5 @@
+@import "status";
+
 html {
   /* Use Inter for now */
   font-family: "Inter", "Noto Sans CJK TC", sans-serif;
@@ -8,6 +10,7 @@ html {
   --dark-color: #3c304a;
   --foreground-color: #615175;
 }
+
 a {
   text-decoration: none;
   font-weight: 400;
@@ -45,7 +48,7 @@ h2 {
 }
 #station-list-ul {
   list-style: none;
-  padding: 0.25rem 1rem;
+  padding: 0 1rem;
   border-radius: 4px;
   box-shadow: 0 0 2rem #0000002b;
   border: solid 1px #0000002b;
@@ -55,13 +58,12 @@ h2 {
   border: unset;
 }
 .station {
-  border-bottom: solid 1px #ccc;
-}
-.station {
-  display: flex;
-  padding: 0.5rem 0;
-  justify-content: space-between;
+  border-bottom: solid 1px #0000002b;
   color: inherit;
+  display: flex;
+  justify-content: space-between;
+  line-height: 2.4;
+  margin: 0;
   text-decoration: none;
 }
 .station :nth-child(2),
@@ -108,18 +110,14 @@ h2 {
   .station :nth-child(1) {
     width: 60%;
   }
-  .station :nth-child(2) {
+  .station :nth-child(2),
+  .station :nth-child(3),
+  .station :nth-child(4) {
     width: 3rem;
   }
   .station :nth-child(3),
   .station :nth-child(4) {
     display: unset;
-  }
-  .station :nth-child(3) {
-    width: 3rem;
-  }
-  .station :nth-child(4) {
-    width: 3rem;
   }
   footer {
     grid-column: 1/1;

@@ -36,6 +36,9 @@ function createStation(station) {
 <span title="PM10 (μg/m³)">${station["PM2.5"]}</span>
 <span title="PM2.5 (μg/m³)">${station["PM10"]}</span>
 `.trim();
+  // HACK: would be better to actually target the node itself, but
+  // writing it out is not really readable in vanilla JS
+  renderStatus(station.Status, a.children[1]);
   li.appendChild(a);
   return li;
 }
@@ -91,14 +94,32 @@ function renderLocation(county, sitename) {
   document.getElementById("station").innerText = sitename;
 }
 
+// Change ELEMENT based on STATUS.
+// ELEMENT is the main body by default.
+function renderStatus(status, element) {
+  // TODO: calculate from numeric value ourselves
+  let class_map = {
+    良好: "good",
+    普通: "okay",
+    對敏感族群不健康: "meh",
+    對所有族群不健康: "bad",
+    非常不健康: "verybad",
+    危害: "dangerous",
+  };
+  element.classList.remove(...Object.values(class_map));
+  element.classList.add(class_map[status]);
+}
+
 function renderMainView(site, aqi_parsed) {
   // Render the main view for SITE.
   // AQI_PARSED is used for extra info.
+  let body = document.getElementsByTagName("body")[0];
   renderUpdated(site["PublishTime"]);
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
   renderStationList(aqi_parsed);
-  show(document.getElementsByTagName("body")[0]);
+  renderStatus(site["Status"], body);
+  show(body);
 }
 
 function renderFailedView() {

@@ -1,0 +1,49 @@
+/* 良好 */
+.good {
+  --background-color: hsl(118, 80%, 89%);
+  --foreground-color: hsl(118, 18%, 30%);
+  --dark-color: hsl(120, 18%, 19%);
+}
+/* 普通 */
+.okay {
+  --background-color: hsl(63, 80%, 89%);
+  --foreground-color: hsl(63, 18%, 30%);
+  --dark-color: hsl(63, 18%, 19%);
+}
+/* 對敏感族群不健康 */
+.meh {
+  --background-color: hsl(34, 80%, 89%);
+  --foreground-color: hsl(34, 18%, 30%);
+  --dark-color: hsl(34, 18%, 19%);
+}
+/* 對所有族群不健康 */
+.bad {
+  --background-color: hsl(358, 80%, 89%);
+  --foreground-color: hsl(358, 18%, 30%);
+  --dark-color: hsl(358, 18%, 19%);
+}
+/* 非常不健康 */
+.verybad {
+  --background-color: hsl(238, 80%, 89%);
+  --foreground-color: hsl(238, 18%, 30%);
+  --dark-color: hsl(238, 18%, 19%);
+}
+/* 危害 */
+.dangerous {
+  /* Official colors use Dark Red for this, but that's a bit hard to*/
+  /* distinguish from Bad */
+  --background-color: #000;
+  --foreground-color: #fff;
+  --dark-color: #fff;
+}
+
+/* Set a default */
+.good,
+.okay,
+.meh,
+.bad,
+.verybad,
+.dangerous {
+  color: var(--foreground-color);
+  background-color: var(--background-color);
+}
