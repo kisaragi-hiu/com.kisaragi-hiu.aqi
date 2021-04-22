@@ -15,7 +15,7 @@ dist/bundle.js: $(src_js) package.json Makefile
 	$(bin)webpack --mode production
 
 dist/styles.css: $(src_css) Makefile
-	$(bin)sass $< $@ --style compressed
+	$(bin)sass src/main.scss $@ --style compressed
 
 serve: dist/bundle.js dist/index.html dist/styles.css
 	cd dist/ && python -m http.server 8080 &
