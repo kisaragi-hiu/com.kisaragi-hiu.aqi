@@ -1,6 +1,5 @@
-/* Use Inter for now */
-@import url("https://rsms.me/inter/inter.css");
 html {
+  /* Use Inter for now */
   font-family: "Inter", "Noto Sans CJK TC", sans-serif;
 }
 
