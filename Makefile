@@ -12,13 +12,13 @@ build: dist/bundle.js dist/index.html dist/styles.css
 # 	cp -r node_modules/ionicons/dist $@
 
 dist/bundle.js: $(src_js) package.json Makefile
-	$(bin)webpack --mode production
+	$(bin)rollup -c
 
 dist/styles.css: $(src_css) Makefile
 	$(bin)sass src/main.scss $@ --style compressed
 
-watch-js: dist/bundle.js
-	$(bin)webpack --mode production --watch
+watch-js:
+	$(bin)rollup -c -w
 
 watch-css: dist/styles.css
 	$(bin)sass "src/main.scss:dist/styles.css" --watch
