@@ -158,7 +158,12 @@ function shouldUseCache(cached_date, access_date) {
   );
 }
 
-function refresh({ station, use_cache = true } = {}) {
+function refresh({
+  url = "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=a7e5a2b7-4e2a-4fd2-8ec8-db5e4dcfe72b",
+  fallback = "https://raw.githubusercontent.com/kisaragi-hiu/aqi-mirror/main/data/latest.json",
+  station,
+  use_cache = true,
+} = {}) {
   let current_station = station || localStorage.getItem("station") || "楠梓";
   localStorage.setItem("station", current_station);
   // Retrieve from cache if we should
@@ -168,24 +173,37 @@ function refresh({ station, use_cache = true } = {}) {
     // Make a request otherwise
     let oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function () {
-      let aqi_parsed = JSON.parse(this.responseText);
-      // Save into cache
-      // Allow for invalidation later
-      localStorage.setItem("version", "0");
-      localStorage.setItem("response_cache", this.responseText);
-      localStorage.setItem(
-        "last_retrieved",
-        govTimestampToISO8601(aqi_parsed.records[0].PublishTime)
-      );
-      render(aqi_parsed, current_station);
+      try {
+        // This errors out if the response is not JSON (eg. a 404 page)
+        let aqi_parsed = JSON.parse(this.responseText);
+        // This errors out if the data is not in the right shape
+        // (eg. when the data is being updated and `records` is empty)
+        let publishTime = aqi_parsed.records[0].PublishTime;
+        // Save into cache
+        // Allow for invalidation later
+        localStorage.setItem("version", "0");
+        localStorage.setItem("response_cache", this.responseText);
+        localStorage.setItem(
+          "last_retrieved",
+          govTimestampToISO8601(publishTime)
+        );
+        render(aqi_parsed, current_station);
+      } catch (e) {
+        console.log(e);
+        // Try again with the fallback URL
+        if (fallback) {
+          refresh({
+            url: fallback,
+            fallback: null,
+            station: station,
+            use_cache: use_cache,
+          });
+        } else {
+          renderFailedView();
+        }
+      }
     });
-    // oReq.addEventListener("error", function () {
-    // Switch to a failed view
-    // });
-    oReq.open(
-      "GET",
-      "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=a7e5a2b7-4e2a-4fd2-8ec8-db5e4dcfe72b"
-    );
+    oReq.open("GET", url);
     oReq.send();
   }
 }
