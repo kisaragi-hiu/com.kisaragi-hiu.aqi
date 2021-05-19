@@ -26,7 +26,8 @@
     <meta name="keywords" content="AQI, Taiwan" />
     <link rel="preconnect" href="https://rsms.me" />
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css" type="text/css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="bundle.css" type="text/css" />
     <!-- Fathom Analytics -->
     <script>
       let dnt = navigator.doNotTrack || navigator.msDoNotTrack || null;
@@ -48,33 +49,7 @@
         fathom("trackPageview");
       }
     </script>
+    <script defer src="bundle.js"></script>
   </head>
-  <body class="notready">
-    <h2 id="location">
-      <span id="county">place</span>
-      <span>/</span>
-      <span id="station">holder</span>
-      <!-- <ion-icon name="refresh-outline">ion-icon</ion-icon> -->
-    </h2>
-    <span title="AQI" id="aqi">0</span>
-    <h2 id="other-title">其他監測資料</h2>
-    <table id="other-meta"></table>
-    <footer>
-      <p>資料來自<a href="https://data.gov.tw/">政府資料開放平臺</a>。</p>
-      <p>
-        <a href="https://github.com/kisaragi-hiu/com.kisaragi-hiu.aqi">原始碼</a
-        >以MIT條款釋出。
-      </p>
-      <p>更新時間：<time id="updated" title=""></time></p>
-    </footer>
-    <div id="station-list">
-      <ul id="station-list-ul">
-        <li class="item">
-          <span>測站</span><span>AQI</span><span>PM2.5</span><span>PM10</span>
-        </li>
-      </ul>
-    </div>
-    <script src="bundle.js"></script>
-    <!-- <script type="module" src="ionicons/dist/ionicons/ionicons.esm.js"></script> -->
-  </body>
+  <body></body>
 </html>

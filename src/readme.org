@@ -1,0 +1,6 @@
+* src/
+
+- components/ :: Svelte components
+- views/ :: Components that represent entire pages
+- main.ts :: javascript entry point
+- main.css :: global css entry point
