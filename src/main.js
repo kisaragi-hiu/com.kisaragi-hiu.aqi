@@ -119,6 +119,8 @@ function renderMainView(site, aqi_parsed) {
 
 function renderFailedView() {
   document.getElementsByTagName("body")[0].innerText = "Data is invalid";
+  let body = document.getElementsByTagName("body")[0];
+  body.classList.remove("notready");
 }
 
 function render(aqi_parsed, station) {
