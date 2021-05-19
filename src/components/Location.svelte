@@ -1,7 +1,7 @@
 <script lang="ts">
   import Refresh from "@svicons/ionicons-outline/refresh.svelte";
   export let county: string;
-  export let station: string;
+  export let siteName: string;
 </script>
 
 <style>
@@ -17,6 +17,6 @@
 <h2 id="location">
   <span id="county">{county}</span>
   <span>/</span>
-  <span id="station">{station}</span>
+  <span id="siteName">{siteName}</span>
   <button><Refresh width="1em" /></button>
 </h2>

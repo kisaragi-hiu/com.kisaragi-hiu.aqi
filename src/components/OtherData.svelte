@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type Site from "../site.ts";
+  import type { Site } from "../Site";
   export let site: Site;
   let PM2_5 = site["PM2.5"] + "μg/m³";
   let PM10 = site["PM10"] + "μg/m³";
@@ -12,6 +12,24 @@
   let WindSpeed = site["WindSpeed"] + "m/s";
   let WindDirec = site["WindDirec"] + "°";
 </script>
+
+<style>
+  #other-title {
+    visibility: hidden;
+  }
+  #other-meta td:nth-child(1) {
+    width: 7rem;
+  }
+  @media (min-width: 650px) {
+    #other-meta {
+      grid-column: 2/2;
+      grid-row: 2/2;
+    }
+    #other-title {
+      visibility: visible;
+    }
+  }
+</style>
 
 <h2 id="other-title">其他監測資料</h2>
 <table id="other-meta">
