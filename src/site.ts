@@ -1,0 +1,26 @@
+export type Site = {
+  SiteName: string;
+  County: string;
+  AQI: string;
+  Pollutant: string;
+  Status: string;
+  SO2: string;
+  CO: string;
+  CO_8hr: string;
+  O3: string;
+  O3_8hr: string;
+  PM10: string;
+  "PM2.5": string;
+  NO2: string;
+  NOx: string;
+  NO: string;
+  WindSpeed: string;
+  WindDirec: string;
+  PublishTime: string;
+  "PM2.5_AVG": string;
+  PM10_AVG: string;
+  SO2_AVG: string;
+  Longitude: string;
+  Latitude: string;
+  SiteId: string;
+};
