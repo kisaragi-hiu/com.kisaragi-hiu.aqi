@@ -17,7 +17,6 @@ function renderUpdated(timestamp) {
 }
 
 function createStation(station) {
-  let tmp = document.createElement("div");
   let li = document.createElement("li");
   let a = document.createElement("a");
   a.addEventListener("click", () => {
