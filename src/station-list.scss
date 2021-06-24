@@ -1,6 +1,6 @@
 div#station-list {
   padding: 0.5rem 1rem;
-  box-shadow: 0 0 2rem #00000040;
+  box-shadow: 0 0 1rem #00000030;
   border-radius: 0.5rem;
   button {
     text-align: inherit;
@@ -10,7 +10,6 @@ div#station-list {
     background: unset;
     cursor: pointer;
     padding: 0;
-    width: 100%;
   }
   table {
     border-collapse: collapse;
@@ -19,6 +18,16 @@ div#station-list {
   td,
   th {
     text-align: left;
+    display: flex;
+    &.status {
+      color: inherit;
+      background: inherit;
+    }
+    &.status::before {
+      content: "●";
+      margin-right: 0.25rem;
+      color: var(--foreground-color);
+    }
   }
   tr {
     border-bottom: solid 1px #0000002b;

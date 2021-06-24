@@ -26,8 +26,6 @@ body {
   display: grid;
   margin: 3rem 2rem;
   grid-template-rows: auto auto auto;
-  background-color: var(--background-color);
-  color: var(--foreground-color);
   transition: opacity 100ms ease, background-color 400ms ease;
 }
 footer {
@@ -36,10 +34,8 @@ footer {
 h2,
 #aqi {
   font-weight: 700;
-  color: var(--dark-color);
 }
 #refresh {
-  color: var(--foreground-color);
 }
 h2 {
   font-size: 100%;

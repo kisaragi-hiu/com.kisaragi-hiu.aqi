@@ -19,22 +19,46 @@ function renderStationList(aqi_parsed) {
     .getElementsByTagName("tbody")[0];
   // Only insert on first run
   if (station_list.childElementCount == 0) {
-    for (let station of aqi_parsed.records) {
+    let stations = aqi_parsed.records;
+
+    // Show a bunch of mock stations to test the status display:
+    //
+    // stations = [
+    //   ...[
+    //     "良好",
+    //     "普通",
+    //     "對敏感族群不健康",
+    //     "對所有族群不健康",
+    //     "非常不健康",
+    //     "危害",
+    //   ].map((testStatus) => ({
+    //     County: "Test",
+    //     Status: testStatus,
+    //     SiteName: testStatus,
+    //     AQI: 10,
+    //     "PM2.5": 10,
+    //     PM10: 10,
+    //   })),
+    //   ...stations,
+    // ];
+
+    for (let station of stations) {
       let row = document.createElement("tr");
       row.innerHTML = `
-<th title="測站"><button>${station.County}/${station.SiteName}</button></th>
-<td title="AQI">${station.AQI}</td>
-<td title="PM2.5 (μg/m³)">${station["PM2.5"]}</td>
-<td title="PM10 (μg/m³)">${station["PM10"]}</td>
+<th class="station" title="測站"><button>${station.County}/${station.SiteName}</button></th>
+<td class="aqi" title="AQI">${station.AQI}</td>
+<td class="pm2-5" title="PM2.5 (μg/m³)">${station["PM2.5"]}</td>
+<td class="pm10" title="PM10 (μg/m³)">${station["PM10"]}</td>
 `.trim();
       let stationBtn = row.getElementsByTagName("button")[0];
       stationBtn.addEventListener("click", () => {
         refresh({ station: station.SiteName });
         window.scrollTo(0, 0);
       });
-      // HACK: would be better to actually target the node itself, but
-      // writing it out is not really readable in vanilla JS
-      renderStatus(station.Status, row);
+      attachStatusClass(
+        station.Status,
+        row.getElementsByClassName("station")[0]
+      );
       // li.appendChild(a);
       station_list.appendChild(row);
     }
@@ -84,7 +108,7 @@ function renderLocation(county, sitename) {
 
 // Change ELEMENT based on STATUS.
 // ELEMENT is the main body by default.
-function renderStatus(status, element) {
+function attachStatusClass(status, element) {
   // TODO: calculate from numeric value ourselves
   let class_map = {
     良好: "good",
@@ -94,8 +118,8 @@ function renderStatus(status, element) {
     非常不健康: "verybad",
     危害: "dangerous",
   };
-  element.classList.remove(...Object.values(class_map));
-  element.classList.add(class_map[status]);
+  element.classList.remove(...Object.values(class_map), "status");
+  element.classList.add(class_map[status], "status");
 }
 
 function renderMainView(site, aqi_parsed) {
@@ -106,7 +130,7 @@ function renderMainView(site, aqi_parsed) {
   renderData(site);
   renderLocation(site["County"], site["SiteName"]);
   renderStationList(aqi_parsed);
-  renderStatus(site["Status"], body);
+  // attachStatusClass(site["Status"], body);
   body.classList.remove("notready");
 }
 
