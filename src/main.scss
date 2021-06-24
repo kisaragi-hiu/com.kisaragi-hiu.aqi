@@ -1,5 +1,6 @@
 @import "status";
 @import "station-list";
+@import "aqi";
 
 html {
   /* Use Inter for now */
@@ -32,20 +33,6 @@ body {
 footer {
   margin-bottom: 2rem;
 }
-#aqi {
-  font-size: 8rem;
-  font-weight: 700;
-  line-height: 1;
-  vertical-align: top;
-  color: inherit;
-  &::after {
-    vertical-align: top;
-    content: "●";
-    margin-left: 0.25rem;
-    font-size: 1rem;
-    color: var(--foreground-color);
-  }
-}
 h2#location {
   margin: 0;
 }
@@ -76,10 +63,6 @@ h2 {
   }
   #other-title {
     visibility: visible;
-  }
-  #aqi {
-    grid-column: 1/1;
-    grid-row: 2/2;
   }
   #other-meta {
     grid-column: 2/2;
