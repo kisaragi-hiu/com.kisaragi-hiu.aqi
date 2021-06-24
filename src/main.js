@@ -156,9 +156,15 @@ function renderFailedView(station) {
 }
 
 function render(aqi_parsed, station) {
-  let current_site = aqi_parsed.records.filter(
+  // Get the site object
+  let current_site = aqi_parsed.records.find(
     (site) => site.SiteName == station
-  )[0];
+  );
+  // If it doesn't exist, go back to the default
+  if (!current_site) {
+    station = "楠梓";
+    aqi_parsed.records.find((site) => site.SiteName == "楠梓");
+  }
   if (current_site) {
     renderMainView(current_site, aqi_parsed);
   } else {
