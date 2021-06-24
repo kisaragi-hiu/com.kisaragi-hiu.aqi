@@ -8,6 +8,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, "dist"),
+    watchContentBase: true,
     compress: true,
     port: 8080,
   },
