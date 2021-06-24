@@ -117,9 +117,24 @@ function renderMainView(site, aqi_parsed) {
   body.classList.remove("notready");
 }
 
-function renderFailedView() {
-  document.getElementsByTagName("body")[0].innerText = "Data is invalid";
+function renderFailedView(station) {
   let body = document.getElementsByTagName("body")[0];
+  body.innerHTML = `<div>
+<p>取得資料失敗。</p>
+<button id="retry">重試</button>
+</div>`.trim();
+  let refreshBtn = document.getElementById("retry");
+  refreshBtn.addEventListener("click", () => {
+    window.localStorage.clear();
+    // preserve station if it's passed in
+    if (station) {
+      window.localStorage.setItem("station", station);
+    }
+    // We have to actually do a browser reload as FailedView destroys
+    // the HTML and MainView relies on existing HTML. MainView doesn't
+    // create nodes.
+    window.location.reload();
+  });
   body.classList.remove("notready");
 }
 
@@ -130,7 +145,7 @@ function render(aqi_parsed, station) {
   if (current_site) {
     renderMainView(current_site, aqi_parsed);
   } else {
-    renderFailedView();
+    renderFailedView(station);
   }
 }
 
@@ -167,7 +182,13 @@ function refresh({
   localStorage.setItem("station", current_station);
   // Retrieve from cache if we should
   if (use_cache && shouldUseCache(last_retrieved, new Date())) {
-    render(JSON.parse(localStorage.getItem("response_cache")), current_station);
+    console.log("using cache");
+    try {
+      let aqi_parsed = JSON.parse(localStorage.getItem("response_cache"));
+      render(aqi_parsed, current_station);
+    } catch (e) {
+      renderFailedView(current_station);
+    }
   } else {
     // Make a request otherwise
     let oReq = new XMLHttpRequest();
@@ -197,7 +218,7 @@ function refresh({
             use_cache: use_cache,
           });
         } else {
-          renderFailedView();
+          renderFailedView(current_station);
         }
       }
     });
