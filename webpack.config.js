@@ -1,21 +1,23 @@
-const webpack = require('webpack');
-const path = require('path');
+const path = require("path");
 
-const config = {
-  entry: './src/main.js',
+module.exports = {
+  entry: "./src/main.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, "dist"),
+    compress: true,
+    port: 8080,
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
-  }
+        use: "babel-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
 };
-
-module.exports = config;

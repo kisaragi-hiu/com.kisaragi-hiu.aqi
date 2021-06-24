@@ -18,16 +18,13 @@ dist/styles.css: $(src_css) Makefile
 	$(bin)sass src/main.scss $@ --style compressed
 
 watch-js:
-	$(bin)webpack --mode development --watch
+	npx webpack serve --mode development
 
 watch-css:
 	$(bin)sass "src/main.scss:dist/styles.css" --watch
 
-serve:
-	cd dist/; python -m http.server 8080
-
 watch: dist/index.html
-	$(bin)concurrently --kill-others "make serve" "make watch-js" "make watch-css"
+	$(bin)concurrently --kill-others "make watch-js" "make watch-css"
 
 clean:
 	rm dist/*.js
