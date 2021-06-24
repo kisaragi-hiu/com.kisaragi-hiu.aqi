@@ -81,10 +81,16 @@ const extra_fields = {
   WindDirec: ["風向", "°"],
 };
 
-function renderData(site) {
+function renderAQI(site) {
+  let aqi = document.getElementById("aqi");
+  attachStatusClass(site.Status, aqi);
+  aqi.innerText = site.AQI;
+  document.getElementById("county").innerText = site.County;
+  document.getElementById("station").innerText = site.SiteName;
+}
+
+function renderMetas(site) {
   let table = document.getElementById("other-meta");
-  let main_display = document.getElementById("aqi");
-  main_display.innerText = site.AQI;
   // Clear the table
   // TODO: populate with data instead, keep keys in HTML
   table.innerText = "";
@@ -99,11 +105,6 @@ function renderData(site) {
       .insertCell(-1)
       .appendChild(document.createTextNode(site[key] + extra_fields[key][1]));
   }
-}
-
-function renderLocation(county, sitename) {
-  document.getElementById("county").innerText = county;
-  document.getElementById("station").innerText = sitename;
 }
 
 // Change ELEMENT based on STATUS.
@@ -127,8 +128,8 @@ function renderMainView(site, aqi_parsed) {
   // AQI_PARSED is used for extra info.
   let body = document.getElementsByTagName("body")[0];
   renderUpdated(site["PublishTime"]);
-  renderData(site);
-  renderLocation(site["County"], site["SiteName"]);
+  renderAQI(site);
+  renderMetas(site);
   renderStationList(aqi_parsed);
   // attachStatusClass(site["Status"], body);
   body.classList.remove("notready");
