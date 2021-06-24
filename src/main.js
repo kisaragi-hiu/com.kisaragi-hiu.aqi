@@ -1,8 +1,5 @@
 "use strict";
 
-// import { defineCustomElements } from "@ionic/core/loader";
-// defineCustomElements(window);
-
 import {
   govTimestampToISO8601,
   govTimestampToFullDisplay,
@@ -16,33 +13,30 @@ function renderUpdated(timestamp) {
   updated.innerText = govTimestampToShortDisplay(timestamp);
 }
 
-function createStation(station) {
-  let li = document.createElement("li");
-  let a = document.createElement("a");
-  a.addEventListener("click", () => {
-    refresh({ station: station.SiteName });
-  });
-  a.className = "item";
-  a.href = "#";
-  a.innerHTML = `
-<span title="測站">${station.County}/${station.SiteName}</span>
-<span title="AQI">${station.AQI}</span>
-<span title="PM2.5 (μg/m³)">${station["PM2.5"]}</span>
-<span title="PM10 (μg/m³)">${station["PM10"]}</span>
-`.trim();
-  // HACK: would be better to actually target the node itself, but
-  // writing it out is not really readable in vanilla JS
-  renderStatus(station.Status, a.children[1]);
-  li.appendChild(a);
-  return li;
-}
-
 function renderStationList(aqi_parsed) {
-  let station_list = document.getElementById("station-list-ul");
+  let station_list = document
+    .getElementById("station-list")
+    .getElementsByTagName("tbody")[0];
   // Only insert on first run
-  if (station_list.childElementCount == 1) {
+  if (station_list.childElementCount == 0) {
     for (let station of aqi_parsed.records) {
-      station_list.appendChild(createStation(station));
+      let row = document.createElement("tr");
+      row.innerHTML = `
+<th title="測站"><button>${station.County}/${station.SiteName}</button></th>
+<td title="AQI">${station.AQI}</td>
+<td title="PM2.5 (μg/m³)">${station["PM2.5"]}</td>
+<td title="PM10 (μg/m³)">${station["PM10"]}</td>
+`.trim();
+      let stationBtn = row.getElementsByTagName("button")[0];
+      stationBtn.addEventListener("click", () => {
+        refresh({ station: station.SiteName });
+        window.scrollTo(0, 0);
+      });
+      // HACK: would be better to actually target the node itself, but
+      // writing it out is not really readable in vanilla JS
+      renderStatus(station.Status, row);
+      // li.appendChild(a);
+      station_list.appendChild(row);
     }
   }
 }

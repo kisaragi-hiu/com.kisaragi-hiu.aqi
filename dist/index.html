@@ -67,12 +67,19 @@
       </p>
       <p>更新時間：<time id="updated" title=""></time></p>
     </footer>
+    <!-- Put it in a div because padding & margin on a table is finicky -->
     <div id="station-list">
-      <ul id="station-list-ul">
-        <li class="item">
-          <span>測站</span><span>AQI</span><span>PM2.5</span><span>PM10</span>
-        </li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>測站</th>
+            <th>AQI</th>
+            <th>PM2.5</th>
+            <th>PM10</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
     <script src="bundle.js"></script>
     <!-- <script type="module" src="ionicons/dist/ionicons/ionicons.esm.js"></script> -->
