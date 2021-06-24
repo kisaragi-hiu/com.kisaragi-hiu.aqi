@@ -136,11 +136,6 @@ function render(aqi_parsed, station) {
 
 // Caching
 let localStorage = window.localStorage;
-let response_cache = localStorage.getItem("response_cache");
-// getItem returns null if it doesn't exist, and JSON.parse(null) -> null
-// This is "strongly discouraged", but as its value is always an ISO
-// 8601 timestamp I think it's reliable enough.
-let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
 
 function shouldUseCache(cached_date, access_date) {
   // Should the cache be used?
@@ -165,6 +160,10 @@ function refresh({
   use_cache = true,
 } = {}) {
   let current_station = station || localStorage.getItem("station") || "楠梓";
+  // getItem returns null if it doesn't exist, and JSON.parse(null) -> null
+  // This is "strongly discouraged", but as its value is always an ISO
+  // 8601 timestamp I think it's reliable enough.
+  let last_retrieved = new Date(localStorage.getItem("last_retrieved"));
   localStorage.setItem("station", current_station);
   // Retrieve from cache if we should
   if (use_cache && shouldUseCache(last_retrieved, new Date())) {
@@ -189,7 +188,6 @@ function refresh({
         );
         render(aqi_parsed, current_station);
       } catch (e) {
-        console.log(e);
         // Try again with the fallback URL
         if (fallback) {
           refresh({
