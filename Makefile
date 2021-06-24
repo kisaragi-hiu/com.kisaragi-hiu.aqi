@@ -2,7 +2,7 @@ bin := node_modules/.bin/
 src_js := $(wildcard src/*.js)
 src_css := $(wildcard src/*.scss)
 
-.PHONY: build serve clean
+.PHONY: build serve clean watch
 
 build: dist/bundle.js dist/index.html dist/styles.css
 
@@ -17,16 +17,16 @@ dist/bundle.js: $(src_js) package.json Makefile
 dist/styles.css: $(src_css) Makefile
 	$(bin)sass src/main.scss $@ --style compressed
 
-watch-js: dist/bundle.js
-	$(bin)webpack --mode production --watch
+watch-js:
+	$(bin)webpack --mode development --watch
 
-watch-css: dist/styles.css
+watch-css:
 	$(bin)sass "src/main.scss:dist/styles.css" --watch
 
 serve:
 	cd dist/; python -m http.server 8080
 
-watch: dist/bundle.js dist/index.html dist/styles.css
+watch: dist/index.html
 	$(bin)concurrently --kill-others "make serve" "make watch-js" "make watch-css"
 
 clean:
