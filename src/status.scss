@@ -1,18 +1,18 @@
 /* 良好 */
 .good {
-  --foreground-color: #95dc6f;
+  --foreground-color: #66ec65;
 }
 /* 普通 */
 .okay {
-  --foreground-color: #e6e42d;
+  --foreground-color: hsl(61, 097%, 50%);
 }
 /* 對敏感族群不健康 */
 .meh {
-  --foreground-color: #dc806f;
+  --foreground-color: #f7b140;
 }
 /* 對所有族群不健康 */
 .bad {
-  --foreground-color: #dc6fa7;
+  --foreground-color: #ed563e;
 }
 /* 非常不健康 */
 .verybad {

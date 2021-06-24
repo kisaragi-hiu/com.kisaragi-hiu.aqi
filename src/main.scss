@@ -7,9 +7,8 @@ html {
 }
 
 :root {
-  --background-color: hsl(0, 0%, 89%);
-  --dark-color: #000;
-  --foreground-color: #000;
+  --background-color: #eae6ee;
+  --foreground-color: #160128;
 }
 
 a {
@@ -23,6 +22,8 @@ a {
   transition: opacity 100ms ease;
 }
 body {
+  background: var(--background-color);
+  color: var(--foreground-color);
   display: grid;
   margin: 3rem 2rem;
   grid-template-rows: auto auto auto;
