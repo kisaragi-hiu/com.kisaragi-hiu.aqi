@@ -11,12 +11,20 @@ open-browser:
 	 !(pgrep firefox && python firefox-page-opened.py "localhost:8080") && \
 	 xdg-open "http://localhost:8080")
 
-build: dist/bundle.js dist/index.html dist/styles.css
+ext := dist/feather-icons
 
-# dist/ionicons: package.json
-# 	-rm -r $@
-# 	mkdir -p $@
-# 	cp -r node_modules/ionicons/dist $@
+build: $(ext) dist/bundle.js dist/index.html dist/styles.css
+
+# Yes, this is what you do if you don't want to do it in Webpack.
+#
+# "Prior to webpack, front-end developers would use tools like grunt
+# and gulp to process these assets and move them from their /src
+# folder into their /dist or /build directory."
+#
+# --- https://webpack.js.org/guides/asset-management/
+dist/feather-icons: package.json
+	-rm dist/feather-icons -r
+	cp -r node_modules/feather-icons/dist dist/feather-icons
 
 dist/bundle.js: $(src_js) package.json Makefile
 	npx webpack --mode production

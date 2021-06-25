@@ -55,6 +55,9 @@
   </head>
   <body class="notready">
     <h2 id="location">
+      <button title="選擇最近測站" id="locate">
+        <i data-feather="map-pin"></i>
+      </button>
       <span id="county">place</span>
       <span>/</span>
       <span id="station">holder</span>
@@ -82,5 +85,9 @@
       </table>
     </div>
     <script src="bundle.js"></script>
+    <script src="feather-icons/feather.min.js"></script>
+    <script>
+      feather.replace();
+    </script>
   </body>
 </html>

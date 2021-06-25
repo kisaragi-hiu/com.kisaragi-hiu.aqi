@@ -13,5 +13,8 @@
     "presets": [
       "@babel/preset-env"
     ]
+  },
+  "dependencies": {
+    "feather-icons": "^4.28.0"
   }
 }

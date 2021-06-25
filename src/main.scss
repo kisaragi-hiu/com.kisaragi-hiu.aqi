@@ -2,6 +2,18 @@
 @import "station-list";
 @import "aqi";
 
+button {
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  color: inherit;
+  font-size: inherit;
+  border: unset;
+  background: unset;
+  cursor: pointer;
+  padding: 0;
+}
+
 .sorting {
   &.asc::after,
   &.desc::after {

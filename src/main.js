@@ -21,6 +21,7 @@ function renderLocateBtn(aqi_parsed) {
         return distance(a, here) > distance(b, here);
       })[0];
       refresh({ station: closest.SiteName });
+      window.scrollTo(0, 0);
     });
   });
 }
