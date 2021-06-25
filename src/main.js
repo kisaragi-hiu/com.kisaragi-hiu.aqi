@@ -6,6 +6,25 @@ import {
   govTimestampToShortDisplay,
 } from "./govtimestamp";
 
+import { distance } from "./location";
+
+function renderLocateBtn(aqi_parsed) {
+  // Make a copy
+  let stations = aqi_parsed.records.slice();
+  document.getElementById("locate").addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let here = {
+        Longitude: position.coords.longitude,
+        Latitude: position.coords.latitude,
+      };
+      let closest = stations.sort((a, b) => {
+        return distance(a, here) > distance(b, here);
+      })[0];
+      refresh({ station: closest.SiteName });
+    });
+  });
+}
+
 function renderUpdated(timestamp) {
   let updated = document.getElementById("updated");
   updated.setAttribute("datetime", govTimestampToISO8601(timestamp));
@@ -236,6 +255,7 @@ function renderMainView(site, aqi_parsed) {
   // Render the main view for SITE.
   // AQI_PARSED is used for extra info.
   let body = document.getElementsByTagName("body")[0];
+  renderLocateBtn(aqi_parsed);
   renderUpdated(site["PublishTime"]);
   renderAQI(site);
   renderMetas(site);
