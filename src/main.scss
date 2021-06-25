@@ -14,9 +14,21 @@ html {
 }
 
 a {
-  text-decoration: none;
-  font-weight: 400;
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  vertical-align: baseline;
+  // TIL. Learned from clig.dev.
+  text-underline-offset: 0.2rem;
+  text-decoration-thickness: 0.1rem;
+  &:focus-visible {
+    outline: solid 0.1rem;
+    text-decoration: none;
+    background: var(--foreground-color);
+    color: var(--background-color);
+  }
 }
+
 .notready {
   /* Avoid flash of unrendered content; cleared by JS */
   /* Don't worry about noscript as this whole thing requires JS */
