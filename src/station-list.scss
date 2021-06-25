@@ -4,6 +4,7 @@ div#station-list {
   border-radius: 0.5rem;
   button {
     font-family: inherit;
+    font-weight: inherit;
     text-align: inherit;
     color: inherit;
     font-size: inherit;
@@ -15,6 +16,11 @@ div#station-list {
   table {
     border-collapse: collapse;
     width: 100%;
+  }
+  tbody {
+    th {
+      font-weight: 400;
+    }
   }
   td,
   th {

@@ -2,6 +2,21 @@
 @import "station-list";
 @import "aqi";
 
+.sorting {
+  &.asc::after,
+  &.desc::after {
+    font-size: 60%;
+    vertical-align: middle;
+    margin-left: 0.25rem;
+  }
+  &.asc::after {
+    content: "▲";
+  }
+  &.desc::after {
+    content: "▼";
+  }
+}
+
 $cjk-fallback: "Noto Sans CJK TC", "Microsoft Jhenghei";
 
 html {

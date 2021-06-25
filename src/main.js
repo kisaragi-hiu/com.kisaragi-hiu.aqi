@@ -13,35 +13,117 @@ function renderUpdated(timestamp) {
   updated.innerText = govTimestampToShortDisplay(timestamp);
 }
 
-function renderStationList(aqi_parsed) {
-  let station_list = document
+// Doing this to get a local scope.
+//
+// This is an Immediately Invoked Function Expression. I can't just
+// use a block scope because there'd be no way to get the function
+// itself outside.
+//
+// You can say this should be in its own class. Or its own module, even.
+const renderStationList = (() => {
+  // * Object state: stations
+  let stations = null;
+  function sortStations(field, asc) {
+    // Sort `stations` based on station[field].
+    // If `asc`, compare with >, otherwise with <.
+    //
+    // Special case: I hard code some fields to be numeric.
+    // The type information in aqi_parsed.fields[index].type is
+    // inaccurate; it's "text" for everything.
+    let numeric = false;
+    // Do this check once outside the comparison function
+    if (["AQI", "PM2.5", "PM10", "Longitude", "Latitude"].includes(field)) {
+      numeric = true;
+    }
+    stations = stations.sort((a, b) => {
+      let a_val = a[field];
+      let b_val = b[field];
+      if (numeric) {
+        a_val = Number(a_val);
+        b_val = Number(b_val);
+      }
+      if (asc) {
+        return a_val > b_val;
+      } else {
+        return a_val < b_val;
+      }
+    });
+  }
+
+  // * Creating the buttons in the head row
+  let head_row = document
+    .getElementById("station-list")
+    .getElementsByTagName("thead")[0]
+    .getElementsByTagName("tr")[0];
+  function renderTableHead() {
+    function createBtn({
+      innerText,
+      field,
+      title,
+      className,
+      asc = true,
+    } = {}) {
+      let th = document.createElement("th");
+      let btn = document.createElement("button");
+      if (title) {
+        btn.title = title;
+      }
+      if (className) {
+        btn.className = className;
+      }
+      btn.innerText = innerText;
+      btn.addEventListener("click", () => {
+        asc = !asc;
+        for (let other of head_row.getElementsByTagName("button")) {
+          other.classList.remove("sorting", "asc", "desc");
+        }
+        sortStations(field, asc);
+        renderStations(stations, true);
+        btn.classList.add("sorting", asc ? "asc" : "desc");
+      });
+      th.appendChild(btn);
+      return th;
+    }
+    const sortStationBtnTh = createBtn({
+      innerText: "測站",
+      field: "Latitude",
+      title: "依緯度排序",
+      className: "sorting desc",
+      asc: false,
+    });
+    const sortAQIBtnTh = createBtn({
+      innerText: "AQI",
+      field: "AQI",
+      title: "依目前AQI排序",
+    });
+    const sort2_5BtnTh = createBtn({
+      innerText: "PM2.5",
+      field: "PM2.5",
+      title: "依PM2.5懸浮微粒量排序",
+    });
+    const sort10BtnTh = createBtn({
+      innerText: "PM10",
+      field: "PM10",
+      title: "依PM10懸浮微粒量排序",
+    });
+    head_row.appendChild(sortStationBtnTh);
+    head_row.appendChild(sortAQIBtnTh);
+    head_row.appendChild(sort2_5BtnTh);
+    head_row.appendChild(sort10BtnTh);
+  }
+  renderTableHead();
+
+  // * Rendering out to the tbody
+  let tbody = document
     .getElementById("station-list")
     .getElementsByTagName("tbody")[0];
-  // Only insert on first run
-  if (station_list.childElementCount == 0) {
-    let stations = aqi_parsed.records;
-
-    // Show a bunch of mock stations to test the status display:
-    //
-    // stations = [
-    //   ...[
-    //     "良好",
-    //     "普通",
-    //     "對敏感族群不健康",
-    //     "對所有族群不健康",
-    //     "非常不健康",
-    //     "危害",
-    //   ].map((testStatus) => ({
-    //     County: "Test",
-    //     Status: testStatus,
-    //     SiteName: testStatus,
-    //     AQI: 10,
-    //     "PM2.5": 10,
-    //     PM10: 10,
-    //   })),
-    //   ...stations,
-    // ];
-
+  function clearRenderedStations() {
+    tbody.innerHTML = "";
+  }
+  function renderStations(stations, clear) {
+    if (clear) {
+      clearRenderedStations();
+    }
     for (let station of stations) {
       let row = document.createElement("tr");
       row.innerHTML = `
@@ -60,11 +142,38 @@ function renderStationList(aqi_parsed) {
         row.getElementsByClassName("station")[0]
       );
       // li.appendChild(a);
-      station_list.appendChild(row);
+      tbody.appendChild(row);
     }
   }
-}
+  // function makeTestStations() {
+  //   return [
+  //     "良好",
+  //     "普通",
+  //     "對敏感族群不健康",
+  //     "對所有族群不健康",
+  //     "非常不健康",
+  //     "危害",
+  //   ].map((testStatus) => ({
+  //     County: "Test",
+  //     Status: testStatus,
+  //     SiteName: testStatus,
+  //     AQI: 10,
+  //     "PM2.5": 10,
+  //     PM10: 10,
+  //   }));
+  // }
 
+  // * The init code that gets run the first time it's rendered
+  return (aqi_parsed) => {
+    stations = aqi_parsed.records;
+    // stations = [...makeTestStations(), ...stations];
+    // Only insert on first run
+    sortStations("Latitude", false);
+    if (tbody.childElementCount == 0) {
+      renderStations(stations);
+    }
+  };
+})();
 // Map from key to display name
 // Key: key in API response
 // Value: array of [Display, Unit]

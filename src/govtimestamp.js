@@ -12,12 +12,13 @@ function govTimestampToISO8601(timestamp) {
 }
 
 function govTimestampToFullDisplay(timestamp) {
-  let [year, month, day, hours, minutes, seconds] = timestamp.split(/ |\/|:/);
+  let [year, month, day, hours, minutes, _seconds] = timestamp.split(/ |\/|:/);
   return `${year}年${month}月${day}日 ${hours}時${minutes}分`;
 }
 
 function govTimestampToShortDisplay(timestamp) {
-  let [year, month, day, hours, minutes, seconds] = timestamp.split(/ |\/|:/);
+  let [_year, _month, _day, hours, minutes, _seconds] =
+    timestamp.split(/ |\/|:/);
   return `${hours}:${minutes}`;
 }
 
