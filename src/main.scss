@@ -2,9 +2,10 @@
 @import "station-list";
 @import "aqi";
 
+$cjk-fallback: "Noto Sans CJK TC", "Microsoft Jhenghei";
+
 html {
-  /* Use Inter for now */
-  font-family: "Inter", "Noto Sans CJK TC", sans-serif;
+  font-family: "Fira Sans", $cjk-fallback, sans-serif;
 }
 
 :root {
