@@ -42,7 +42,29 @@ function renderUpdated(timestamp) {
 // You can say this should be in its own class. Or its own module, even.
 const renderStationList = (() => {
   // * Object state: stations
-  let stations = null;
+  // Sorting , filtering, etc. modify currentStations directly, then
+  // sends currentStations to renderStations() to be displayed on screen.
+  //
+  // allStations preserves all the stations even after filtering so
+  // that filtering is just a display thing.
+  let currentStations = null;
+  let allStations = null;
+
+  function renderStationFilter() {
+    let stationFilter = document.getElementById("station-filter");
+    stationFilter.addEventListener("input", (e) => {
+      let query = e.target.value;
+      let filtered = allStations.filter((v) => {
+        return (v.County + v.SiteName).includes(query);
+      });
+      if (filtered.length != 0) {
+        currentStations = filtered;
+        renderStations(currentStations, true);
+      }
+    });
+  }
+  renderStationFilter();
+
   function sortStations(field, asc) {
     // Sort `stations` based on station[field].
     // If `asc`, compare with >, otherwise with <.
@@ -55,7 +77,7 @@ const renderStationList = (() => {
     if (["AQI", "PM2.5", "PM10", "Longitude", "Latitude"].includes(field)) {
       numeric = true;
     }
-    stations = stations.sort((a, b) => {
+    currentStations = currentStations.sort((a, b) => {
       let a_val = a[field];
       let b_val = b[field];
       if (numeric) {
@@ -98,7 +120,7 @@ const renderStationList = (() => {
           other.classList.remove("sorting", "asc", "desc");
         }
         sortStations(field, asc);
-        renderStations(stations, true);
+        renderStations(currentStations, true);
         btn.classList.add("sorting", asc ? "asc" : "desc");
       });
       th.appendChild(btn);
@@ -185,12 +207,13 @@ const renderStationList = (() => {
 
   // * The init code that gets run the first time it's rendered
   return (aqi_parsed) => {
-    stations = aqi_parsed.records;
+    currentStations = aqi_parsed.records;
+    allStations = currentStations;
     // stations = [...makeTestStations(), ...stations];
     // Only insert on first run
     sortStations("Latitude", false);
     if (tbody.childElementCount == 0) {
-      renderStations(stations);
+      renderStations(currentStations);
     }
   };
 })();

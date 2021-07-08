@@ -1,3 +1,15 @@
+#station-filter {
+  width: 100%;
+  // Padding will push the content out without this
+  box-sizing: border-box;
+  font-size: inherit;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: 0 0 0.25rem #00000030;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem 0;
+}
+
 div#station-list {
   padding: 0.5rem 1rem;
   margin-bottom: 4rem;
