@@ -21,7 +21,7 @@ function renderLocateBtn(aqi_parsed) {
         return distance(a, here) > distance(b, here);
       })[0];
       refresh({ station: closest.SiteName });
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
 }
@@ -155,7 +155,7 @@ const renderStationList = (() => {
       let stationBtn = row.getElementsByTagName("button")[0];
       stationBtn.addEventListener("click", () => {
         refresh({ station: station.SiteName });
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
       attachStatusClass(
         station.Status,
