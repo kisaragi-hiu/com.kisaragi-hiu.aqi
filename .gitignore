@@ -8,6 +8,9 @@ dist/*.map
 *.blend1
 .log
 
+# splash screen and icon for Capacitor (through cordova-res)
+# Generated in Makefile
+/resources
 
 # See https://stackoverflow.com/questions/5533050/
 /android/*

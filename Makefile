@@ -53,6 +53,17 @@ dist: $(ext) dist/bundle.js dist/index.html dist/styles.css
 
 # * Android
 
-run-android: dist
+android-icons: assets
+	mkdir -p "resources/android"
+	cp assets/icon.png resources/icon.png
+	gm convert assets/icon-no-border.png \
+	   -resize 432x432 \
+	   resources/android/icon-foreground.png
+	npx cordova-res android \
+	    --type adaptive-icon \
+	    --icon-background-source "#dcebf4" \
+	    --skip-config --copy
+
+run-android: dist android-icons
 	npx cap sync
 	npx cap run android
