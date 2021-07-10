@@ -7,3 +7,15 @@ dist/*.map
 *cache
 *.blend1
 .log
+
+
+# See https://stackoverflow.com/questions/5533050/
+/android/*
+/android/app/*
+/android/app/src/*
+/android/app/src/main/*
+
+!/android/app/
+!/android/app/src/
+!/android/app/src/main/
+!/android/app/src/main/AndroidManifest.xml
