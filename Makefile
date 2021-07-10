@@ -1,7 +1,8 @@
 src_js := $(wildcard src/*.js)
 src_css := $(wildcard src/*.scss)
 
-.PHONY: build serve clean open-browser
+# * Utils
+.PHONY: open-browser watch-js watch-css serve clean build
 
 # Visit the page after a second
 # Unless Firefox is already open and has a tab visiting the page
@@ -11,11 +12,27 @@ open-browser:
 	 !(pgrep firefox && python firefox-page-opened.py "localhost:8080") && \
 	 xdg-open "http://localhost:8080")
 
+watch-js:
+	npx webpack serve --mode development
+
+watch-css:
+	npx sass "src/main.scss:dist/styles.css" --watch
+
+serve: dist/index.html
+	npx concurrently "make open-browser" "make watch-js" "make watch-css"
+
+clean:
+	rm dist/*.js
+
+build: dist
+
+# * Build
+.PHONY: build serve clean open-browser
+
 ext := dist/feather-icons
 
-build: $(ext) dist/bundle.js dist/index.html dist/styles.css
-
-# Yes, this is what you do if you don't want to do it in Webpack.
+# Yes, this is what you do if you don't want to import asset files
+# with Webpack.
 #
 # "Prior to webpack, front-end developers would use tools like grunt
 # and gulp to process these assets and move them from their /src
@@ -32,14 +49,10 @@ dist/bundle.js: $(src_js) package.json Makefile
 dist/styles.css: $(src_css) Makefile
 	npx sass --no-source-map src/main.scss $@ --style compressed
 
-watch-js:
-	npx webpack serve --mode development
+dist: $(ext) dist/bundle.js dist/index.html dist/styles.css
 
-watch-css:
-	npx sass "src/main.scss:dist/styles.css" --watch
+# * Android
 
-serve: dist/index.html
-	npx concurrently "make open-browser" "make watch-js" "make watch-css"
-
-clean:
-	rm dist/*.js
+run-android: dist
+	npx cap sync
+	npx cap run android

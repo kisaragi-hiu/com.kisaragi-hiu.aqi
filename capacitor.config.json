@@ -1,0 +1,6 @@
+{
+  "appId": "com.kisaragi_hiu.aqi",
+  "appName": "aqi.tw",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
