@@ -2,6 +2,17 @@
 @import "station-list";
 @import "aqi";
 
+$cjk-fallback: "Noto Sans CJK TC", "Microsoft Jhenghei";
+
+html {
+  font-family: "Fira Sans", $cjk-fallback, sans-serif;
+}
+
+:root {
+  --background-color: #dcebf4;
+  --foreground-color: #052124;
+}
+
 button {
   font-family: inherit;
   font-weight: inherit;
@@ -12,6 +23,10 @@ button {
   background: unset;
   cursor: pointer;
   padding: 0;
+  &:active {
+    background: none;
+    color: var(--foreground-color);
+  }
 }
 
 .sorting {
@@ -27,17 +42,6 @@ button {
   &.desc::after {
     content: "▼";
   }
-}
-
-$cjk-fallback: "Noto Sans CJK TC", "Microsoft Jhenghei";
-
-html {
-  font-family: "Fira Sans", $cjk-fallback, sans-serif;
-}
-
-:root {
-  --background-color: #dcebf4;
-  --foreground-color: #052124;
 }
 
 a {

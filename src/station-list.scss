@@ -6,8 +6,13 @@
   border-radius: 0.5rem;
   border: none;
   box-shadow: 0 0 0.25rem #00000030;
-  padding: 0.25rem 0.5rem;
-  margin: 0.25rem 0;
+  transition: box-shadow 250ms ease;
+  padding: 0.5rem 0.5rem;
+  margin: 0.5rem 0;
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0.25rem #00000060;
+  }
 }
 
 div#station-list {
