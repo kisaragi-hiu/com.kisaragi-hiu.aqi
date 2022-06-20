@@ -351,7 +351,7 @@ function shouldUseCache(cached_date, access_date) {
 }
 
 function refresh({
-  url = "https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=a7e5a2b7-4e2a-4fd2-8ec8-db5e4dcfe72b",
+  url = "https://data.epa.gov.tw/api/v2/aqx_p_432?limit=1000&api_key=7909fa25-dd8f-431a-ae55-e88dedada07a",
   fallback = "https://raw.githubusercontent.com/kisaragi-hiu/aqi-mirror/main/data/latest.json",
   station,
   use_cache = true,
