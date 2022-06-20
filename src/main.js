@@ -54,6 +54,7 @@ const renderStationList = (() => {
     let stationFilter = document.getElementById("station-filter");
     stationFilter.addEventListener("input", (e) => {
       let query = e.target.value;
+      query = query.replace("台", "臺");
       let filtered = allStations.filter((v) => {
         return (v.County + v.SiteName).includes(query);
       });
