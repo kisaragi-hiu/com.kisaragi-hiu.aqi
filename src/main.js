@@ -253,9 +253,13 @@ function renderMetas(site) {
       .insertCell(-1)
       .appendChild(document.createTextNode(extra_fields[key][0]));
     // Insert the field's value plus its unit
-    row
-      .insertCell(-1)
-      .appendChild(document.createTextNode(site[key] + extra_fields[key][1]));
+    if (site[key]) {
+      row
+        .insertCell(-1)
+        .appendChild(document.createTextNode(site[key] + extra_fields[key][1]));
+    } else {
+      row.insertCell(-1).appendChild(document.createTextNode("不明"));
+    }
   }
 }
 
