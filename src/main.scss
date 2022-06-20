@@ -44,6 +44,25 @@ button {
   }
 }
 
+$cjk-fallback: "Noto Sans CJK TC", "Microsoft Jhenghei";
+$main-color: #cdadff;
+
+html {
+  font-family: "Fira Sans", $cjk-fallback, sans-serif;
+}
+
+:root {
+  --background-color: #ffffff;
+  --foreground-color: #212121;
+}
+
+.station > button,
+a {
+  &:hover {
+    background: #cdadff40;
+  }
+}
+
 a {
   color: inherit;
   font-weight: inherit;
