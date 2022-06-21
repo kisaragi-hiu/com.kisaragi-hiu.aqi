@@ -40,6 +40,10 @@
     background: inherit;
     color: inherit;
     vertical-align: middle;
+    // Duplicate code with .btn in main.scss.
+    &:hover {
+      background: #cdadff40;
+    }
     * {
       vertical-align: initial;
     }

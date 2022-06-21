@@ -58,7 +58,7 @@
   </head>
   <body class="notready">
     <h2 id="location">
-      <button title="選擇最近測站" id="locate">
+      <button class="btn" title="選擇最近測站" id="locate">
         <i data-feather="map-pin"></i>
       </button>
       <span id="county">place</span>
@@ -69,7 +69,12 @@
     <h2 id="other-title">其他監測資料</h2>
     <table id="other-meta"></table>
     <footer>
-      <p>更新時間：<time id="updated" title=""></time></p>
+      <p>
+        更新時間：<time id="updated" title=""></time>
+        <button class="btn" title="重新整理" id="main-refresh">
+          <i data-feather="refresh-ccw"></i>
+        </button>
+      </p>
       <p>
         資料來自<a href="https://data.gov.tw/">政府資料開放平臺</a>。<br />
         <a href="https://github.com/kisaragi-hiu/com.kisaragi-hiu.aqi">原始碼</a

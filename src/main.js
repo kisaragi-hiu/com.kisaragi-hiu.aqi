@@ -26,11 +26,15 @@ function renderLocateBtn(aqi_parsed) {
   });
 }
 
-function renderUpdated(timestamp) {
+function renderUpdated(timestamp, station) {
   let updated = document.getElementById("updated");
   updated.setAttribute("datetime", govTimestampToISO8601(timestamp));
   updated.setAttribute("title", govTimestampToFullDisplay(timestamp));
   updated.innerText = govTimestampToShortDisplay(timestamp);
+  let refreshBtn = document.getElementById("main-refresh");
+  refreshBtn.addEventListener("click", () => {
+    reset(station);
+  });
 }
 
 // Doing this to get a local scope.
@@ -293,23 +297,27 @@ function renderMainView(site, aqi_parsed) {
   body.classList.remove("notready");
 }
 
+function reset(station) {
+  window.localStorage.clear();
+  // preserve station if it's passed in
+  if (station) {
+    window.localStorage.setItem("station", station);
+  }
+  // We have to actually do a browser reload as FailedView destroys
+  // the HTML and MainView relies on existing HTML. MainView doesn't
+  // create nodes.
+  window.location.reload();
+}
+
 function renderFailedView(station) {
   let body = document.getElementsByTagName("body")[0];
   body.innerHTML = `<div>
 <p>取得資料失敗。</p>
-<button id="retry">重試</button>
+<button class="btn" id="retry">重試</button>
 </div>`.trim();
   let refreshBtn = document.getElementById("retry");
   refreshBtn.addEventListener("click", () => {
-    window.localStorage.clear();
-    // preserve station if it's passed in
-    if (station) {
-      window.localStorage.setItem("station", station);
-    }
-    // We have to actually do a browser reload as FailedView destroys
-    // the HTML and MainView relies on existing HTML. MainView doesn't
-    // create nodes.
-    window.location.reload();
+    reset(station);
   });
   body.classList.remove("notready");
 }
