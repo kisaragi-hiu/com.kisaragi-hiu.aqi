@@ -14,13 +14,13 @@ function renderLocateBtn(aqi_parsed) {
   document.getElementById("locate").addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let here = {
-        Longitude: position.coords.longitude,
-        Latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
       };
       let closest = stations.sort((a, b) => {
         return distance(a, here) > distance(b, here);
       })[0];
-      refresh({ station: closest.SiteName });
+      refresh({ station: closest.sitename });
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
@@ -60,7 +60,7 @@ const renderStationList = (() => {
       let query = e.target.value;
       query = query.replace("台", "臺");
       let filtered = allStations.filter((v) => {
-        return (v.County + v.SiteName).includes(query);
+        return (v.county + v.sitename).includes(query);
       });
       if (filtered.length != 0) {
         currentStations = filtered;
@@ -79,7 +79,7 @@ const renderStationList = (() => {
     // inaccurate; it's "text" for everything.
     let numeric = false;
     // Do this check once outside the comparison function
-    if (["AQI", "PM2.5", "PM10", "Longitude", "Latitude"].includes(field)) {
+    if (["aqi", "pm2.5", "pm10", "longitude", "latitude"].includes(field)) {
       numeric = true;
     }
     currentStations = currentStations.sort((a, b) => {
@@ -133,24 +133,24 @@ const renderStationList = (() => {
     }
     const sortStationBtnTh = createBtn({
       innerText: "測站",
-      field: "Latitude",
+      field: "latitude",
       title: "依緯度排序",
       className: "sorting desc",
       asc: false,
     });
     const sortAQIBtnTh = createBtn({
       innerText: "AQI",
-      field: "AQI",
+      field: "aqi",
       title: "依目前AQI排序",
     });
     const sort2_5BtnTh = createBtn({
       innerText: "PM2.5",
-      field: "PM2.5",
+      field: "pm2.5",
       title: "依PM2.5懸浮微粒量排序",
     });
     const sort10BtnTh = createBtn({
       innerText: "PM10",
-      field: "PM10",
+      field: "pm10",
       title: "依PM10懸浮微粒量排序",
     });
     head_row.appendChild(sortStationBtnTh);
@@ -174,18 +174,18 @@ const renderStationList = (() => {
     for (let station of stations) {
       let row = document.createElement("tr");
       row.innerHTML = `
-<th class="station" title="測站"><button>${station.County}/${station.SiteName}</button></th>
-<td class="aqi" title="AQI">${station.AQI}</td>
-<td class="pm2-5" title="PM2.5 (μg/m³)">${station["PM2.5"]}</td>
-<td class="pm10" title="PM10 (μg/m³)">${station["PM10"]}</td>
+<th class="station" title="測站"><button>${station.county}/${station.sitename}</button></th>
+<td class="aqi" title="AQI">${station.aqi}</td>
+<td class="pm2-5" title="PM2.5 (μg/m³)">${station["pm2.5"]}</td>
+<td class="pm10" title="PM10 (μg/m³)">${station["pm10"]}</td>
 `.trim();
       let stationBtn = row.getElementsByTagName("button")[0];
       stationBtn.addEventListener("click", () => {
-        refresh({ station: station.SiteName });
+        refresh({ station: station.sitename });
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
       attachStatusClass(
-        station.Status,
+        station.status,
         row.getElementsByClassName("station")[0]
       );
       // li.appendChild(a);
@@ -216,7 +216,7 @@ const renderStationList = (() => {
     allStations = currentStations;
     // stations = [...makeTestStations(), ...stations];
     // Only insert on first run
-    sortStations("Latitude", false);
+    sortStations("latitude", false);
     if (tbody.childElementCount == 0) {
       renderStations(currentStations);
     }
@@ -226,24 +226,24 @@ const renderStationList = (() => {
 // Key: key in API response
 // Value: array of [Display, Unit]
 const extra_fields = {
-  "PM2.5": ["PM2.5", "μg/m³"],
-  PM10: ["PM10", "μg/m³"],
-  CO: ["一氧化碳", "ppm"],
-  NO: ["一氧化氮", "ppb"],
-  NO2: ["二氧化氮", "ppb"],
-  SO2: ["二氧化硫", "ppb"],
-  O3: ["臭氧", "ppb"],
-  NOx: ["氮氧化物", "ppb"],
-  WindSpeed: ["風速", "m/s"],
-  WindDirec: ["風向", "°"],
+  "pm2.5": ["PM2.5", "μg/m³"],
+  pm10: ["PM10", "μg/m³"],
+  co: ["一氧化碳", "ppm"],
+  no: ["一氧化氮", "ppb"],
+  no2: ["二氧化氮", "ppb"],
+  so2: ["二氧化硫", "ppb"],
+  o3: ["臭氧", "ppb"],
+  nox: ["氮氧化物", "ppb"],
+  wind_speed: ["風速", "m/s"],
+  wind_direc: ["風向", "°"],
 };
 
 function renderAQI(site) {
   let aqi = document.getElementById("aqi");
-  attachStatusClass(site.Status, aqi);
-  aqi.innerText = site.AQI;
-  document.getElementById("county").innerText = site.County;
-  document.getElementById("station").innerText = site.SiteName;
+  attachStatusClass(site.status, aqi);
+  aqi.innerText = site.aqi;
+  document.getElementById("county").innerText = site.county;
+  document.getElementById("station").innerText = site.sitename;
 }
 
 function renderMetas(site) {
@@ -289,11 +289,11 @@ function renderMainView(site, aqi_parsed) {
   // AQI_PARSED is used for extra info.
   let body = document.getElementsByTagName("body")[0];
   renderLocateBtn(aqi_parsed);
-  renderUpdated(site["PublishTime"]);
+  renderUpdated(site["publishtime"], site.sitename);
   renderAQI(site);
   renderMetas(site);
   renderStationList(aqi_parsed);
-  // attachStatusClass(site["Status"], body);
+  // attachStatusClass(site["status"], body);
   body.classList.remove("notready");
 }
 
@@ -325,12 +325,12 @@ function renderFailedView(station) {
 function render(aqi_parsed, station) {
   // Get the site object
   let current_site = aqi_parsed.records.find(
-    (site) => site.SiteName == station
+    (site) => site.sitename == station
   );
   // If it doesn't exist, go back to the default
   if (!current_site) {
     station = "楠梓";
-    aqi_parsed.records.find((site) => site.SiteName == "楠梓");
+    aqi_parsed.records.find((site) => site.sitename == "楠梓");
   }
   if (current_site) {
     renderMainView(current_site, aqi_parsed);
@@ -388,7 +388,7 @@ function refresh({
         let aqi_parsed = JSON.parse(this.responseText);
         // This errors out if the data is not in the right shape
         // (eg. when the data is being updated and `records` is empty)
-        let publishTime = aqi_parsed.records[0].PublishTime;
+        let publishTime = aqi_parsed.records[0].publishtime;
         // Save into cache
         // Allow for invalidation later
         localStorage.setItem("version", "0");
