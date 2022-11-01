@@ -30,7 +30,7 @@ function renderUpdated(timestamp, station) {
   let updated = document.getElementById("updated");
   updated.setAttribute("datetime", govTimestampToISO8601(timestamp));
   updated.setAttribute("title", govTimestampToFullDisplay(timestamp));
-  updated.innerText = govTimestampToShortDisplay(timestamp);
+  updated.innerText = govTimestampToFullDisplay(timestamp);
   let refreshBtn = document.getElementById("main-refresh");
   refreshBtn.addEventListener("click", () => {
     reset(station);
