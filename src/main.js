@@ -61,6 +61,7 @@ const renderStationList = (() => {
     let stationFilter = document.getElementById("station-filter");
     stationFilter.addEventListener("input", (e) => {
       let query = e.target.value;
+      // Allows searching for eg. 台北 in addition to 臺北
       query = query.replace("台", "臺");
       let filtered = allStations.filter((v) => {
         return (v.county + v.sitename).includes(query);
@@ -247,6 +248,12 @@ function renderAQI(site) {
   aqi.innerText = site.aqi;
   document.getElementById("county").innerText = site.county;
   document.getElementById("station").innerText = site.sitename;
+  let latlong = document.getElementById("latlong");
+  latlong.innerText = `${site.latitude}N ${site.longitude}E`;
+  latlong.setAttribute(
+    "href",
+    `https://www.google.com/maps/search/${site.latitude},${site.longitude}`
+  );
 }
 
 function renderMetas(site) {

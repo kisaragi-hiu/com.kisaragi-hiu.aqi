@@ -100,7 +100,15 @@ footer {
 h2#location {
   margin: 0;
 }
-#refresh {
+#latlong {
+  opacity: 50%;
+  font-size: 75%;
+  font-weight: 400;
+  text-decoration: none;
+  &:hover {
+    color: #474aac;
+    text-decoration: underline;
+  }
 }
 h2 {
   font-weight: 700;
