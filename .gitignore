@@ -1,8 +1,4 @@
 node_modules
-dist/*.js
-dist/*.css
-dist/*/
-dist/*.txt
-dist/*.map
+dist
 *cache
 *.blend1

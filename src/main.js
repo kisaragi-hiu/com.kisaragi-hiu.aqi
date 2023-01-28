@@ -8,6 +8,9 @@ import {
 
 import { distance } from "./location";
 
+import * as feather from "feather-icons";
+feather.replace();
+
 function renderLocateBtn(aqi_parsed) {
   // Make a copy
   let stations = aqi_parsed.records.slice();
